@@ -1,0 +1,11 @@
+<div *ngIf="(vm$ | async) as vm">
+
+	<div>
+		Limits: <button *ngFor="let limit of vm.limitOptions" (click)="setLimit(limit)">{{limit}}</button>
+	</div>
+
+	<ul *ngFor="let u of vm.users">
+		<li>{{u.name.first}} {{u.name.last}}</li>
+	</ul>
+
+</div>
