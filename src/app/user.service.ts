@@ -11,7 +11,8 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   private limitOptions = of([5, 10, 20, 50]);
-  private limitBS = new BehaviorSubject(5).pipe(distinctUntilChanged());
+  private limitBS = new BehaviorSubject(5);
+  private limits$ = this.limitBS.pipe(distinctUntilChanged());
 
   private users$ = this.limitBS.pipe(
     switchMap(limit => this.http.get(`https://randomuser.me/api/?seed=ngDominicana&results=${limit}`)),
@@ -20,7 +21,7 @@ export class UserService {
 
   vm$ = combineLatest(
     this.users$,
-    this.limitBS.asObservable(),
+    this.limits$,
     this.limitOptions
   ).pipe(
     map(([users, limit, limitOptions]) => {
