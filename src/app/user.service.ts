@@ -14,7 +14,7 @@ export class UserService {
   private limitBS = new BehaviorSubject(5);
   private limits$ = this.limitBS.pipe(distinctUntilChanged());
 
-  private users$ = this.limitBS.pipe(
+  private users$ = this.limits$.pipe(
     switchMap(limit => this.http.get(`https://randomuser.me/api/?seed=ngDominicana&results=${limit}`)),
     map((response: any) => response.results)
   );
